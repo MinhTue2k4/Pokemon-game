@@ -12,35 +12,36 @@ const timeBar = $('.timer-bar')
 const conTainer = $('.container')
 
 const app = {
-    // heroes: [
-    //     { name: "Abaddon", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/abaddon.png" },
-    //     { name: "Alchemist", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/alchemist.png" },
-    //     { name: "Ancient_Apparition", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/ancient_apparition.png" },
-    //     { name: "Antimage", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/antimage.png" },
-    //     { name: "Arc_Warden", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/arc_warden.png" },
-    //     // ...
-
-    // ],
-    // render: function () {
-    //     const htmls = this.heroes.map(hero => {
-    //         return `
-    //             <div class="cards">
-    //                 <img src="https://yt3.googleusercontent.com/ytc/AIdro_lWrxG_fpbnTzQokp3OGudXc5dgZtHPFYm5LyC6kWRZT5g=s900-c-k-c0x00ffffff-no-rj" 
-    //                     class="cover">
-    //                 <img src="${hero.image}" class="heroes">
-    //             </div>
-    //         `
-    //     })
-    //     conTainer.innerHTML = `<div class="row"> ${htmls.join('')} </div>`;
-    // },
-    // defineProperties: function () {
-    //     Object.defineProperty(this, 'currentCard', {
-    //         get: function () {
-    //             return this.cards[this.currentIndex]
-    //         }
-    //     })
-    // },
-
+    heroes: [
+        { name: "Abaddon", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/abaddon.png" },
+        { name: "Alchemist", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/alchemist.png" },
+        { name: "Ancient_Apparition", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/ancient_apparition.png" },
+        { name: "Antimage", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/antimage.png" },
+        { name: "Arc_Warden", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/arc_warden.png" },
+        { name: "Axe", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/axe.png" },
+        { name: "Dazzle", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/dazzle.png" },
+        { name: "Kez", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/kez.png" },
+        { name: "Huskar", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/huskar.png" },
+        { name: "Sven", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/sven.png" },
+    ],
+    render: function () {
+        //x2 rows 
+        let double_the_Heroes = this.heroes.concat(this.heroes);
+        // sort() + random() ??
+        double_the_Heroes.sort(function () {
+            return Math.random() - 0.5;
+        });
+        const htmls = double_the_Heroes.map(hero => {
+            return `
+                <div class="cards">
+                    <img src="https://yt3.googleusercontent.com/ytc/AIdro_lWrxG_fpbnTzQokp3OGudXc5dgZtHPFYm5LyC6kWRZT5g=s900-c-k-c0x00ffffff-no-rj" 
+                        class="cover">
+                    <img src="${hero.image}" class="hero">
+                </div>
+            `
+        })
+        conTainer.innerHTML = `<div class="row"> ${htmls.join('')} </div>`;
+    },
     handleEvents: function () {
         //click vào card và giữ mở
         the1 = null;
@@ -48,7 +49,7 @@ const app = {
         const cards = document.getElementsByClassName("cards")
         for (let card of cards) {
             card.addEventListener("click", function () {
-                
+
                 if (this === the1 || the1 !== null && the2 !== null) {
                     return;
                 }
@@ -82,12 +83,9 @@ const app = {
                 }, 800);
             }
         }
-        //randomCards 
-
     },
-
     start: function () {
-        // this.render()
+        this.render()
         this.handleEvents()
     }
 }
