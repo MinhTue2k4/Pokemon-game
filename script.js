@@ -1,11 +1,3 @@
-// - Time bar 
-//      Time start: Click vào cards 
-//      Time End: Game over 
-// - Cards:  flipped (2) 
-//      True: opacity 100% => flipped more 
-// 	-> all TRUE == WIN: Game over (win)
-// False: reset last index 
-
 const $ = document.querySelector.bind(document)
 const $$ = document.querySelectorAll.bind(document)
 const timeBar = $('.timer-bar')
@@ -25,7 +17,7 @@ const app = {
         { name: "Sven", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/sven.png" },
     ],
     render: function () {
-        //x2 rows 
+        //x2 rows/array 
         let double_the_Heroes = this.heroes.concat(this.heroes);
         // sort() + random() ??
         double_the_Heroes.sort(function () {
