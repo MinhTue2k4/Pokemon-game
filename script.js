@@ -52,8 +52,11 @@ const app = {
                 } else {
                     the2 = this;
                     checkCardStatus(the1, the2);
+                    setTimeout(function(){
                     the1 = null;
                     the2 = null;
+                    }, 1000)
+                    
                 }
             })
         }
