@@ -8,16 +8,17 @@ body {
     background-color: blanchedalmond;
 }
 
-.container {
+.cards-container {
     margin: auto;
     margin-top: 30px;
     width: 30%;
     height: 60%;
     display: flex;
     flex-direction: column;
+    opacity: 0;
 }
 
-.container .row {
+.cards-container .row {
     margin-bottom: 10px;
     padding: 5px;
     display: grid;
@@ -53,7 +54,7 @@ body {
     transform: rotateY(180deg);
 }
 
-.timer {
+.timer-div {
     font: italic bold 18px Arial, sans-serif;
     margin-top: 15px;
     margin-bottom: 5px;
@@ -62,11 +63,13 @@ body {
     align-items: center;
 }
 
-.timer-bar {
+.countdown-bar {
     margin-top: 12px;
     width: 100%;
-    height: 5px;
+    height: 10px;
     background: darkred;
+    border: 2px solid white;
+    transition: width 1s linear;
 }
 
 .button {

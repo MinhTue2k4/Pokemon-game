@@ -1,8 +1,9 @@
 const $ = document.querySelector.bind(document)
 const $$ = document.querySelectorAll.bind(document)
-const timeBar = $('.timer-bar')
-const conTainer = $('.container')
-
+const conTainer = $('.cards-container')
+const timerDiv = $('.timer-div')
+const btnStart = $('.btn-start')
+const countdownBar = $('.countdown-bar')
 const app = {
     heroes: [
         { name: "Abaddon", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/abaddon.png" },
@@ -17,11 +18,11 @@ const app = {
         { name: "Sven", image: "https://cdn.steamstatic.com/apps/dota2/images/dota_react/heroes/sven.png" },
     ],
     render: function () {
-        //x2 rows/array 
+        //x2 array 
         let double_the_Heroes = this.heroes.concat(this.heroes);
-        // sort() + random() ??
+        //-50 to 50% 
         double_the_Heroes.sort(function () {
-            return Math.random() - 0.5;
+            return Math.random() - 0.5; 
         });
         const htmls = double_the_Heroes.map(hero => {
             return `
@@ -35,28 +36,29 @@ const app = {
         conTainer.innerHTML = `<div class="row"> ${htmls.join('')} </div>`;
     },
     handleEvents: function () {
-        //click vào card và giữ mở
         the1 = null;
         the2 = null;
+
+        let timerID = null;
+        matchedCards = 0;
+        totalPairs = this.heroes.length;
+
         const cards = document.getElementsByClassName("cards")
         for (let card of cards) {
             card.addEventListener("click", function () {
-
                 if (this === the1 || the1 !== null && the2 !== null) {
                     return;
                 }
                 this.classList.add('open-focus')
-
                 if (the1 === null) {
                     the1 = this;
                 } else {
                     the2 = this;
                     checkCardStatus(the1, the2);
-                    setTimeout(function(){
-                    the1 = null;
-                    the2 = null;
-                    }, 1000)
-                    
+                    setTimeout(function () {
+                        the1 = null;
+                        the2 = null;
+                    }, 500)
                 }
             })
         }
@@ -68,16 +70,36 @@ const app = {
             let heroThe2 = heroImg2.getAttribute('src')
 
             if (heroThe1 === heroThe2) {
-                // alert('OK');
+                matchedCards++;
+                if (matchedCards == totalPairs) {
+                    clearInterval(timerID)
+                    setTimeout(()=>{
+                        alert('Winner!')
+                    }, 500)
+                }
             } else {
-                // alert('NO');
-
                 setTimeout(function () {
                     img1.classList.remove('open-focus');
                     img2.classList.remove('open-focus');
                 }, 800);
             }
         }
+        //Time bar 
+        btnStart.addEventListener("click", function () {
+            conTainer.style.opacity = '100'
+            let timeLeft = 60
+            clearInterval(timerID)
+
+            timerID = setInterval(() => {
+                timeLeft--
+                countdownBar.style.width = (timeLeft / 60) * 100 + '%'
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerID)
+                    alert('gg')
+                }
+            }, 1000);
+        })
     },
     start: function () {
         this.render()
