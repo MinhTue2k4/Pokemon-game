@@ -20,9 +20,9 @@ const app = {
     render: function () {
         //x2 array 
         let double_the_Heroes = this.heroes.concat(this.heroes);
-        //-50 to 50% 
+        //-50 to 50%
         double_the_Heroes.sort(function () {
-            return Math.random() - 0.5; 
+            return Math.random() - 0.5;
         });
         const htmls = double_the_Heroes.map(hero => {
             return `
@@ -38,30 +38,32 @@ const app = {
     handleEvents: function () {
         the1 = null;
         the2 = null;
-
         let timerID = null;
         matchedCards = 0;
         totalPairs = this.heroes.length;
 
-        const cards = document.getElementsByClassName("cards")
-        for (let card of cards) {
-            card.addEventListener("click", function () {
-                if (this === the1 || the1 !== null && the2 !== null) {
-                    return;
-                }
-                this.classList.add('open-focus')
-                if (the1 === null) {
-                    the1 = this;
-                } else {
-                    the2 = this;
-                    checkCardStatus(the1, the2);
-                    setTimeout(function () {
-                        the1 = null;
-                        the2 = null;
-                    }, 500)
-                }
-            })
+        function setupCardClicks() {
+            const cards = document.getElementsByClassName("cards")
+            for (let card of cards) {
+                card.addEventListener("click", function () {
+                    if (this === the1 || the1 !== null && the2 !== null) {
+                        return;
+                    }
+                    this.classList.add('open-focus')
+                    if (the1 === null) {
+                        the1 = this;
+                    } else {
+                        the2 = this;
+                        checkCardStatus(the1, the2);
+                        setTimeout(function () {
+                            the1 = null;
+                            the2 = null;
+                        }, 500)
+                    }
+                })
+            }
         }
+
         function checkCardStatus(img1, img2) {
             let heroImg1 = img1.querySelector('.hero')
             let heroImg2 = img2.querySelector('.hero')
@@ -71,9 +73,14 @@ const app = {
 
             if (heroThe1 === heroThe2) {
                 matchedCards++;
+                setTimeout(function () {
+                    img1.style.opacity = '0';
+                    img2.style.opacity = '0';
+                }, 600)
+
                 if (matchedCards == totalPairs) {
                     clearInterval(timerID)
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         alert('Winner!')
                     }, 500)
                 }
@@ -86,19 +93,29 @@ const app = {
         }
         //Time bar 
         btnStart.addEventListener("click", function () {
-            conTainer.style.opacity = '100'
-            let timeLeft = 60
-            clearInterval(timerID)
+            conTainer.style.opacity = '100';
+            app.render();
+            setupCardClicks();
+
+            //reset conditions 
+            let timeLeft = 60;
+            matchedCards = 0;
+            totalPairs = 0;
+            clearInterval(timerID);
 
             timerID = setInterval(() => {
                 timeLeft--
                 countdownBar.style.width = (timeLeft / 60) * 100 + '%'
-
                 if (timeLeft <= 0) {
-                    clearInterval(timerID)
-                    alert('gg')
+                    clearInterval(timerID);
+                    alert('thua');
                 }
             }, 1000);
+            const allCards = document.querySelectorAll('.cards')
+            for (let card of allCards) {
+                card.classList.remove('open-focus');
+                card.style.opacity = 1;
+            }
         })
     },
     start: function () {
