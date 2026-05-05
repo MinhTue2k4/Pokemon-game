@@ -20,7 +20,7 @@ const app = {
     render: function () {
         //x2 array 
         let double_the_Heroes = this.heroes.concat(this.heroes);
-        //-50 to 50%
+        // -50 to 50%
         double_the_Heroes.sort(function () {
             return Math.random() - 0.5;
         });
@@ -38,7 +38,7 @@ const app = {
     handleEvents: function () {
         the1 = null;
         the2 = null;
-        let timerID = null;
+        timerID = null;
         matchedCards = 0;
         totalPairs = this.heroes.length;
 
@@ -67,56 +67,68 @@ const app = {
         function checkCardStatus(img1, img2) {
             let heroImg1 = img1.querySelector('.hero')
             let heroImg2 = img2.querySelector('.hero')
-
             let heroThe1 = heroImg1.getAttribute('src')
             let heroThe2 = heroImg2.getAttribute('src')
-
+            // match card 
             if (heroThe1 === heroThe2) {
                 matchedCards++;
                 setTimeout(function () {
                     img1.style.opacity = '0';
                     img2.style.opacity = '0';
                 }, 600)
-
+                //THẮNG  
                 if (matchedCards == totalPairs) {
                     clearInterval(timerID)
+                    btnStart.classList.add('is-blinking');
+                    btnStart.disabled = false
+
                     setTimeout(() => {
                         alert('Winner!')
                     }, 500)
                 }
-            } else {
+            }
+            else {
                 setTimeout(function () {
                     img1.classList.remove('open-focus');
                     img2.classList.remove('open-focus');
                 }, 800);
             }
+            // console.log('matchedCards:', matchedCards)
+            // console.log('totalPairs:', totalPairs)
         }
-        //Time bar 
+        //
         btnStart.addEventListener("click", function () {
+            btnStart.classList.remove('is-blinking');
             conTainer.style.opacity = '100';
+            btnStart.disabled = true
+
             app.render();
             setupCardClicks();
 
-            //reset conditions 
             let timeLeft = 60;
             matchedCards = 0;
-            totalPairs = 0;
             clearInterval(timerID);
 
             timerID = setInterval(() => {
-                timeLeft--
-                countdownBar.style.width = (timeLeft / 60) * 100 + '%'
+                timeLeft--;
+                countdownBar.style.width = (timeLeft / 60) * 100 + '%';
+
+                //THUA  
                 if (timeLeft <= 0) {
                     clearInterval(timerID);
-                    alert('thua');
+                    const allCards = document.querySelectorAll('.cards');
+                    for (let card of allCards) {
+                        card.style.pointerEvents = 'none';
+                    }
+                    btnStart.classList.add('is-blinking');
+                    btnStart.disabled = false;
+                    setTimeout(() => {
+                        alert('Thua rồi!');
+                    }, 500);
                 }
             }, 1000);
-            const allCards = document.querySelectorAll('.cards')
-            for (let card of allCards) {
-                card.classList.remove('open-focus');
-                card.style.opacity = 1;
-            }
-        })
+        });
+        setupCardClicks();
     },
     start: function () {
         this.render()
@@ -124,3 +136,5 @@ const app = {
     }
 }
 app.start()
+
+

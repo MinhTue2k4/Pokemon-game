@@ -25,6 +25,14 @@ body {
     gap: 5px;
 }
 
+.open-focus {
+    transform: rotateY(180deg);
+}
+
+.cards-container .open-focus {
+    pointer-events: none;
+}
+
 .row {
     perspective: 1000px;
     background-color: transparent;
@@ -92,6 +100,23 @@ body {
     color: white;
 }
 
-.open-focus {
-    transform: rotateY(180deg);
+@keyframes blinkPlayButton {
+    0% {
+        background-color: white;
+        color: black;
+    }
+
+    50% {
+        background-color: #04AA6D;
+        color: white;
+    }
+
+    100% {
+        background-color: white;
+        color: black;
+    }
+}
+
+.is-blinking {
+    animation: blinkPlayButton 0.5s infinite;
 }
