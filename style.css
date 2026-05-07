@@ -8,6 +8,10 @@ body {
     background-color: blanchedalmond;
 }
 
+.transit-animation {
+    transition: opacity 0.5s ease-in-out;
+}
+
 .cards-container {
     margin: auto;
     margin-top: 30px;
@@ -15,6 +19,18 @@ body {
     display: flex;
     flex-direction: column;
     opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.row {
+    perspective: 1000px;
+    background-color: transparent;
+}
+
+.cards-container.is-playing {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .cards-container .row {
@@ -25,26 +41,29 @@ body {
     gap: 5px;
 }
 
-.open-focus {
-    transform: rotateY(180deg);
-}
-
-.cards-container .open-focus {
-    pointer-events: none;
-}
-
-.row {
-    perspective: 1000px;
-    background-color: transparent;
-}
-
-
 .cards {
     position: relative;
     aspect-ratio: 3/4;
     transition: transform 0.6s;
     transform-style: preserve-3d;
     cursor: pointer;
+}
+
+.cards.is-locked {
+    pointer-events: none;
+    background: #cccccc;
+    color: #cccccc;
+    opacity: 0.6;
+}
+
+.flipped-card {
+    transform: rotateY(180deg);
+}
+
+.match-card {
+    pointer-events: none;
+    opacity: 0;
+    transition: transform 0.8s, opacity 0.8s;
 }
 
 .cover,
@@ -95,9 +114,18 @@ body {
     transition-duration: 0.4s;
 }
 
-.button:hover {
+.button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background-color: white;
+    color: black;
+}
+
+/* Pseudo class */
+.button:not(:disabled):hover {
     background-color: #04AA6D;
     color: white;
+    cursor: pointer;
 }
 
 @keyframes blinkPlayButton {
