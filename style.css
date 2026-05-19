@@ -16,8 +16,6 @@ body {
     margin: auto;
     margin-top: 30px;
     width: 35%;
-    display: flex;
-    flex-direction: column;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.5s ease-in-out;
