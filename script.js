@@ -5,7 +5,8 @@ const timerDiv = $('.timer-div')
 const btnStart = $('.btn-start')
 const countdownBar = $('.countdown-bar')
 const app = {
-    heroes: [],
+    all_Heroes_Data: [],
+    heroes_Data_In_Use: [],
     fetchHeroesData: async function () {
         try {
             const response = await fetch('https://api.opendota.com/api/heroStats')
@@ -15,26 +16,28 @@ const app = {
             }
 
             const data = await response.json();
-
-            data.sort(() => Math.random() - 0.5);
-            this.heroes = data.map(hero => {
-                return {
-                    name: hero.localize_name,
-                    image: 'https://cdn.steamstatic.com' + hero.img,
-                }
-            })
+            this.all_Heroes_Data = data;
+            return true;
         }
         catch (error) {
             console.log("Error:", error);
-            alert("Network error")
+            alert("Network error");
+            return false;
         }
-        this.render()
-        this.handleEvents()
     },
     render: function () {
-        //x2 array 
-        let double_the_Heroes = this.heroes.concat(this.heroes);
-        // -50 to 50%
+        // pick hero phase
+        this.all_Heroes_Data.sort(() => Math.random() - 0.5)
+        const random10Heroes = this.all_Heroes_Data.slice(0, 10);
+        this.heroes_Data_In_Use = random10Heroes.map(hero => {
+            return {
+                name: hero.localized_name,
+                image: 'https://cdn.steamstatic.com' + hero.img,
+            }
+        })
+        //x2 array of hero  
+        let double_the_Heroes = this.heroes_Data_In_Use.concat(this.heroes_Data_In_Use);
+        // random -50 to 50%
         double_the_Heroes.sort(function () {
             return Math.random() - 0.5;
         });
@@ -54,7 +57,7 @@ const app = {
         the1 = the2 = null;
         timerID = null;
         matchedCards = 0;
-        totalPairs = this.heroes.length;
+        totalPairs = this.heroes_Data_In_Use.length;
 
         function setupCardConditions() {
             const cards = document.getElementsByClassName("cards")
@@ -140,8 +143,12 @@ const app = {
             }, 1000);
         });
     },
-    start: function () {
-        this.fetchHeroesData();
+    start: async function () {
+        const isSucess = await this.fetchHeroesData();
+        if (isSucess) {
+            this.render()
+            this.handleEvents()
+        }
     }
 }
 app.start()
