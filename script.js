@@ -45,8 +45,7 @@ const app = {
         function defineHero(hero) {
             return `
                 <div class="cards">
-                    <img src="https://yt3.googleusercontent.com/ytc/AIdro_lWrxG_fpbnTzQokp3OGudXc5dgZtHPFYm5LyC6kWRZT5g=s900-c-k-c0x00ffffff-no-rj" 
-                        class="cover">
+                    <img src="./assets/cover.jpg" class="cover">
                     <img src="${hero.image}" class="hero">
                 </div>
             `
@@ -59,7 +58,7 @@ const app = {
         let timerID = null;
         let matchedCards = 0;
         let totalPairs = this.heroes_Data_In_Use.length;
-        
+
         function setupCardConditions() {
             const cards = document.getElementsByClassName("cards")
             for (let card of cards) {
