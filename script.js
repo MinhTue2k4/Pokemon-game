@@ -45,8 +45,7 @@ const app = {
         function defineHero(hero) {
             return `
                 <div class="cards">
-                    <img src="https://yt3.googleusercontent.com/ytc/AIdro_lWrxG_fpbnTzQokp3OGudXc5dgZtHPFYm5LyC6kWRZT5g=s900-c-k-c0x00ffffff-no-rj" 
-                        class="cover">
+                    <img src="./assets/cover.jpg" class="cover">
                     <img src="${hero.image}" class="hero">
                 </div>
             `
@@ -54,10 +53,11 @@ const app = {
         conTainer.innerHTML = `<div class="row"> ${htmls.join('')} </div>`;
     },
     handleEvents: function () {
-        the1 = the2 = null;
-        timerID = null;
-        matchedCards = 0;
-        totalPairs = this.heroes_Data_In_Use.length;
+        let the1 = null;
+        let the2 = null;
+        let timerID = null;
+        let matchedCards = 0;
+        let totalPairs = this.heroes_Data_In_Use.length;
 
         function setupCardConditions() {
             const cards = document.getElementsByClassName("cards")
