@@ -54,11 +54,12 @@ const app = {
         conTainer.innerHTML = `<div class="row"> ${htmls.join('')} </div>`;
     },
     handleEvents: function () {
-        the1 = the2 = null;
-        timerID = null;
-        matchedCards = 0;
-        totalPairs = this.heroes_Data_In_Use.length;
-
+        let the1 = null;
+        let the2 = null;
+        let timerID = null;
+        let matchedCards = 0;
+        let totalPairs = this.heroes_Data_In_Use.length;
+        
         function setupCardConditions() {
             const cards = document.getElementsByClassName("cards")
             for (let card of cards) {
