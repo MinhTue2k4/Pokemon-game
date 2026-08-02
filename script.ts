@@ -4,7 +4,24 @@ const conTainer = $('.cards-container')
 const timerDiv = $('.timer-div')
 const btnStart = $('.btn-start')
 const countdownBar = $('.countdown-bar')
-const app = {
+interface HeroCard {
+    name: string;
+    image: string;
+}
+interface HeroApi {
+    localized_name: string;
+    img: string;
+}
+interface App {
+    all_Heroes_Data: HeroApi[];
+    heroes_Data_In_Use: HeroCard[];
+    fetchHeroesData(): Promise<boolean>;
+    render(): void;
+    handleEvents(): void;
+    start(): Promise<void>;
+}
+
+const app: App = {
     all_Heroes_Data: [],
     heroes_Data_In_Use: [],
     fetchHeroesData: async function () {
@@ -42,7 +59,7 @@ const app = {
             return Math.random() - 0.5;
         });
         const htmls = double_the_Heroes.map(defineHero)
-        function defineHero(hero) {
+        function defineHero(hero: HeroCard) {
             return `
                 <div class="cards">
                     <img src="./assets/cover.jpg" class="cover">
