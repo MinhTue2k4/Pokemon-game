@@ -1,11 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const $ = document.querySelector.bind(document);
+// const $ = document.querySelector.bind(document)
 const $$ = document.querySelectorAll.bind(document);
-const conTainer = $('.cards-container');
-const timerDiv = $('.timer-div');
-const btnStart = $('.btn-start');
-const countdownBar = $('.countdown-bar');
+// const timerDiv = document.querySelector<HTMLDivElement>('.timer-div');
+const conTainer = document.querySelector('.cards-container');
+const btnStart = document.querySelector('.btn-start');
+const countdownBar = document.querySelector('.countdown-bar');
+if (!conTainer || !btnStart || !countdownBar) {
+    throw new Error("DOM elements not found");
+}
 const app = {
     all_Heroes_Data: [],
     heroes_Data_In_Use: [],
@@ -55,7 +56,7 @@ const app = {
     handleEvents: function () {
         let the1 = null;
         let the2 = null;
-        let timerID = null;
+        let timerID;
         let matchedCards = 0;
         let totalPairs = this.heroes_Data_In_Use.length;
         function setupCardConditions() {
@@ -147,4 +148,5 @@ const app = {
     }
 };
 app.start();
+export {};
 //# sourceMappingURL=script.js.map

@@ -1,9 +1,13 @@
-const $ = document.querySelector.bind(document)
+// const $ = document.querySelector.bind(document)
 const $$ = document.querySelectorAll.bind(document)
-const conTainer = $('.cards-container')
-const timerDiv = $('.timer-div')
-const btnStart = $('.btn-start')
-const countdownBar = $('.countdown-bar')
+
+// const timerDiv = document.querySelector<HTMLDivElement>('.timer-div');
+const conTainer = document.querySelector<HTMLDivElement>('.cards-container');
+const btnStart = document.querySelector<HTMLButtonElement>('.btn-start');
+const countdownBar = document.querySelector<HTMLDivElement>('.countdown-bar');
+        if (!conTainer || !btnStart || !countdownBar) {
+            throw new Error("DOM elements not found");
+        }
 interface HeroCard {
     name: string;
     image: string;
@@ -70,16 +74,16 @@ const app: App = {
         conTainer.innerHTML = `<div class="row"> ${htmls.join('')} </div>`;
     },
     handleEvents: function () {
-        let the1 = null;
-        let the2 = null;
-        let timerID = null;
+        let the1: HTMLDivElement | null;
+        let the2: HTMLDivElement | null;
+        let timerID:number;
         let matchedCards = 0;
         let totalPairs = this.heroes_Data_In_Use.length;
 
         function setupCardConditions() {
             const cards = document.getElementsByClassName("cards")
             for (let card of cards) {
-                card.addEventListener("click", function () {
+                card.addEventListener("click", function (this: HTMLDivElement) {
                     if (this === the1 || the1 !== null && the2 !== null) {
                         return;
                     }
@@ -99,7 +103,7 @@ const app: App = {
             }
         }
 
-        function checkCardStatus(img1, img2) {
+        function checkCardStatus(img1: HTMLDivElement, img2: HTMLDivElement) {
             let heroImg1 = img1.querySelector('.hero')?.getAttribute('src')
             let heroImg2 = img2.querySelector('.hero')?.getAttribute('src')
             // match card 
@@ -112,8 +116,8 @@ const app: App = {
                 //THẮNG  
                 if (matchedCards == totalPairs) {
                     clearInterval(timerID)
-                    btnStart.classList.add('is-blinking');
-                    btnStart.disabled = false
+                    btnStart!.classList.add('is-blinking');
+                    btnStart!.disabled = false
                     setTimeout(() => {
                         alert('Winner!')
                     }, 500)
