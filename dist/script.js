@@ -1,11 +1,15 @@
-// const $ = document.querySelector.bind(document)
 const $$ = document.querySelectorAll.bind(document);
-// const timerDiv = document.querySelector<HTMLDivElement>('.timer-div');
 const conTainer = document.querySelector('.cards-container');
 const btnStart = document.querySelector('.btn-start');
 const countdownBar = document.querySelector('.countdown-bar');
-if (!conTainer || !btnStart || !countdownBar) {
-    throw new Error("DOM elements not found");
+if (!conTainer || !countdownBar) {
+    throw new Error(".cards-container not found");
+}
+if (!btnStart) {
+    throw new Error(".btn-start not found");
+}
+if (!countdownBar) {
+    throw new Error(".countdown-bar not found");
 }
 const app = {
     all_Heroes_Data: [],

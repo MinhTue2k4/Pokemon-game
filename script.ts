@@ -1,13 +1,19 @@
-// const $ = document.querySelector.bind(document)
 const $$ = document.querySelectorAll.bind(document)
 
-// const timerDiv = document.querySelector<HTMLDivElement>('.timer-div');
 const conTainer = document.querySelector<HTMLDivElement>('.cards-container');
 const btnStart = document.querySelector<HTMLButtonElement>('.btn-start');
 const countdownBar = document.querySelector<HTMLDivElement>('.countdown-bar');
-        if (!conTainer || !btnStart || !countdownBar) {
-            throw new Error("DOM elements not found");
-        }
+if (!conTainer || !countdownBar) {
+    throw new Error(".cards-container not found");
+}
+if (!btnStart) {
+    throw new Error(".btn-start not found");
+
+}
+if (!countdownBar) {
+    throw new Error(".countdown-bar not found");
+
+}
 interface HeroCard {
     name: string;
     image: string;
@@ -74,9 +80,9 @@ const app: App = {
         conTainer.innerHTML = `<div class="row"> ${htmls.join('')} </div>`;
     },
     handleEvents: function () {
-        let the1: HTMLDivElement | null;
-        let the2: HTMLDivElement | null;
-        let timerID:number;
+        let the1: HTMLDivElement | null = null;
+        let the2: HTMLDivElement | null = null;
+        let timerID: number;
         let matchedCards = 0;
         let totalPairs = this.heroes_Data_In_Use.length;
 
