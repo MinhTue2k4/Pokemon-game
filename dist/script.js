@@ -2,7 +2,7 @@ const $$ = document.querySelectorAll.bind(document);
 const conTainer = document.querySelector('.cards-container');
 const btnStart = document.querySelector('.btn-start');
 const countdownBar = document.querySelector('.countdown-bar');
-if (!conTainer || !countdownBar) {
+if (!conTainer) {
     throw new Error(".cards-container not found");
 }
 if (!btnStart) {
