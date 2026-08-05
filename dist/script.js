@@ -1,20 +1,25 @@
-const $ = document.querySelector.bind(document)
-const $$ = document.querySelectorAll.bind(document)
-const conTainer = $('.cards-container')
-const timerDiv = $('.timer-div')
-const btnStart = $('.btn-start')
-const countdownBar = $('.countdown-bar')
+const $$ = document.querySelectorAll.bind(document);
+const conTainer = document.querySelector('.cards-container');
+const btnStart = document.querySelector('.btn-start');
+const countdownBar = document.querySelector('.countdown-bar');
+if (!conTainer) {
+    throw new Error(".cards-container not found");
+}
+if (!btnStart) {
+    throw new Error(".btn-start not found");
+}
+if (!countdownBar) {
+    throw new Error(".countdown-bar not found");
+}
 const app = {
     all_Heroes_Data: [],
     heroes_Data_In_Use: [],
     fetchHeroesData: async function () {
         try {
-            const response = await fetch('https://api.opendota.com/api/heroStats')
-
+            const response = await fetch('https://api.opendota.com/api/heroStats');
             if (!response.ok) {
                 throw new Error("CAN'T GET DATA");
             }
-
             const data = await response.json();
             this.all_Heroes_Data = data;
             return true;
@@ -27,46 +32,45 @@ const app = {
     },
     render: function () {
         // pick hero phase
-        this.all_Heroes_Data.sort(() => Math.random() - 0.5)
+        this.all_Heroes_Data.sort(() => Math.random() - 0.5);
         const random10Heroes = this.all_Heroes_Data.slice(0, 10);
         this.heroes_Data_In_Use = random10Heroes.map(hero => {
             return {
                 name: hero.localized_name,
                 image: 'https://cdn.steamstatic.com' + hero.img,
-            }
-        })
+            };
+        });
         //x2 array of hero  
         let double_the_Heroes = this.heroes_Data_In_Use.concat(this.heroes_Data_In_Use);
         // random -50 to 50%
         double_the_Heroes.sort(function () {
             return Math.random() - 0.5;
         });
-        const htmls = double_the_Heroes.map(defineHero)
+        const htmls = double_the_Heroes.map(defineHero);
         function defineHero(hero) {
             return `
                 <div class="cards">
                     <img src="./assets/cover.jpg" class="cover">
                     <img src="${hero.image}" class="hero">
                 </div>
-            `
+            `;
         }
         conTainer.innerHTML = `<div class="row"> ${htmls.join('')} </div>`;
     },
     handleEvents: function () {
         let the1 = null;
         let the2 = null;
-        let timerID = null;
+        let timerID;
         let matchedCards = 0;
         let totalPairs = this.heroes_Data_In_Use.length;
-
         function setupCardConditions() {
-            const cards = document.getElementsByClassName("cards")
+            const cards = document.getElementsByClassName("cards");
             for (let card of cards) {
                 card.addEventListener("click", function () {
                     if (this === the1 || the1 !== null && the2 !== null) {
                         return;
                     }
-                    this.classList.add('flipped-card')
+                    this.classList.add('flipped-card');
                     if (the1 === null) {
                         the1 = this;
                     }
@@ -76,30 +80,29 @@ const app = {
                         setTimeout(function () {
                             the1 = null;
                             the2 = null;
-                        }, 500)
+                        }, 500);
                     }
-                })
+                });
             }
         }
-
         function checkCardStatus(img1, img2) {
-            let heroImg1 = img1.querySelector('.hero')?.getAttribute('src')
-            let heroImg2 = img2.querySelector('.hero')?.getAttribute('src')
+            let heroImg1 = img1.querySelector('.hero')?.getAttribute('src');
+            let heroImg2 = img2.querySelector('.hero')?.getAttribute('src');
             // match card 
             if (heroImg1 === heroImg2) {
-                matchedCards++
+                matchedCards++;
                 setTimeout(() => {
-                    img1.classList.add('match-card')
-                    img2.classList.add('match-card')
-                }, 600)
+                    img1.classList.add('match-card');
+                    img2.classList.add('match-card');
+                }, 600);
                 //THẮNG  
                 if (matchedCards == totalPairs) {
-                    clearInterval(timerID)
+                    clearInterval(timerID);
                     btnStart.classList.add('is-blinking');
-                    btnStart.disabled = false
+                    btnStart.disabled = false;
                     setTimeout(() => {
-                        alert('Winner!')
-                    }, 500)
+                        alert('Winner!');
+                    }, 500);
                 }
             }
             else {
@@ -111,17 +114,14 @@ const app = {
         }
         //
         btnStart.addEventListener("click", function () {
-            btnStart.classList.remove('is-blinking')
-            btnStart.disabled = true
+            btnStart.classList.remove('is-blinking');
+            btnStart.disabled = true;
             conTainer.classList.add('is-playing');
-
             let timeLeft = 60;
             matchedCards = 0;
             clearInterval(timerID);
-
             app.render();
             setupCardConditions();
-
             timerID = setInterval(() => {
                 timeLeft--;
                 countdownBar.style.width = (timeLeft / 60) * 100 + '%';
@@ -130,8 +130,8 @@ const app = {
                     clearInterval(timerID);
                     const allCards = $$('.cards');
                     allCards.forEach((card) => {
-                        card.classList.add('is-locked')
-                    })
+                        card.classList.add('is-locked');
+                    });
                     btnStart.classList.add('is-blinking');
                     btnStart.disabled = false;
                     setTimeout(() => {
@@ -146,11 +146,11 @@ const app = {
     start: async function () {
         const isSucess = await this.fetchHeroesData();
         if (isSucess) {
-            this.render()
-            this.handleEvents()
+            this.render();
+            this.handleEvents();
         }
     }
-}
-app.start()
-
-
+};
+app.start();
+export {};
+//# sourceMappingURL=script.js.map
