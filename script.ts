@@ -42,7 +42,7 @@ const app: App = {
                 throw new Error("CAN'T GET DATA");
             }
 
-            const data = await response.json();
+            const data:HeroApi[] = await response.json();
             this.all_Heroes_Data = data;
             return true;
         }
