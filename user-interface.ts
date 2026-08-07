@@ -1,84 +1,16 @@
-const $$ = document.querySelectorAll.bind(document)
+import { game } from './game.js';
+
+const $$ = document.querySelectorAll.bind(document);
 
 const conTainer = document.querySelector<HTMLDivElement>('.cards-container');
 const btnStart = document.querySelector<HTMLButtonElement>('.btn-start');
 const countdownBar = document.querySelector<HTMLDivElement>('.countdown-bar');
-if (!conTainer) {
-    throw new Error(".cards-container not found");
-}
-if (!btnStart) {
-    throw new Error(".btn-start not found");
 
-}
-if (!countdownBar) {
-    throw new Error(".countdown-bar not found");
-}
-interface HeroCard {
-    name: string;
-    image: string;
-}
-interface HeroApi {
-    localized_name: string;
-    img: string;
-}
-interface App {
-    all_Heroes_Data: HeroApi[];
-    heroes_Data_In_Use: HeroCard[];
-    fetchHeroesData(): Promise<boolean>;
-    render(): void;
-    handleEvents(): void;
-    start(): Promise<void>;
-}
+if (!conTainer) throw new Error(".cards-container not found");
+if (!btnStart) throw new Error(".btn-start not found");
+if (!countdownBar) throw new Error(".countdown-bar not found");
 
-const app: App = {
-    all_Heroes_Data: [],
-    heroes_Data_In_Use: [],
-    fetchHeroesData: async function () {
-        try {
-            const response = await fetch('https://api.opendota.com/api/heroStats')
-
-            if (!response.ok) {
-                throw new Error("CAN'T GET DATA");
-            }
-
-            const data:HeroApi[] = await response.json();
-            this.all_Heroes_Data = data;
-            return true;
-        }
-        catch (error) {
-            console.log("Error:", error);
-            alert("Network error");
-            return false;
-        }
-    },
-    render: function () {
-        // pick hero phase
-        this.all_Heroes_Data.sort(() => Math.random() - 0.5)
-        const random10Heroes = this.all_Heroes_Data.slice(0, 10);
-        this.heroes_Data_In_Use = random10Heroes.map(hero => {
-            return {
-                name: hero.localized_name,
-                image: 'https://cdn.steamstatic.com' + hero.img,
-            }
-        })
-        //x2 array of hero  
-        let double_the_Heroes = this.heroes_Data_In_Use.concat(this.heroes_Data_In_Use);
-        // random -50 to 50%
-        double_the_Heroes.sort(function () {
-            return Math.random() - 0.5;
-        });
-        const htmls = double_the_Heroes.map(defineHero)
-        function defineHero(hero: HeroCard) {
-            return `
-                <div class="cards">
-                    <img src="./assets/cover.jpg" class="cover">
-                    <img src="${hero.image}" class="hero">
-                </div>
-            `
-        }
-        conTainer.innerHTML = `<div class="row"> ${htmls.join('')} </div>`;
-    },
-    handleEvents: function () {
+    export function handleEvents() {
         let the1: HTMLDivElement | null = null;
         let the2: HTMLDivElement | null = null;
         let timerID: number;
@@ -136,10 +68,10 @@ const app: App = {
             }
         }
         //
-        btnStart.addEventListener("click", function () {
-            btnStart.classList.remove('is-blinking')
-            btnStart.disabled = true
-            conTainer.classList.add('is-playing');
+        btnStart!.addEventListener("click", function () {
+            btnStart!.classList.remove('is-blinking')
+            btnStart!.disabled = true
+            conTainer!.classList.add('is-playing');
 
             let timeLeft = 60;
             matchedCards = 0;
@@ -150,7 +82,7 @@ const app: App = {
 
             timerID = setInterval(() => {
                 timeLeft--;
-                countdownBar.style.width = (timeLeft / 60) * 100 + '%';
+                countdownBar!.style.width = (timeLeft / 60) * 100 + '%';
                 //THUA  
                 if (timeLeft <= 0) {
                     clearInterval(timerID);
@@ -158,25 +90,14 @@ const app: App = {
                     allCards.forEach((card) => {
                         card.classList.add('is-locked')
                     })
-                    btnStart.classList.add('is-blinking');
-                    btnStart.disabled = false;
+                    btnStart!.classList.add('is-blinking');
+                    btnStart!.disabled = false;
                     setTimeout(() => {
                         alert('Thua rồi!');
-                        conTainer.classList.add('transit-animation');
-                        conTainer.classList.remove('is-playing');
+                        conTainer!.classList.add('transit-animation');
+                        conTainer!.classList.remove('is-playing');
                     }, 500);
                 }
             }, 1000);
         });
-    },
-    start: async function () {
-        const isSucess = await this.fetchHeroesData();
-        if (isSucess) {
-            this.render()
-            this.handleEvents()
-        }
     }
-}
-app.start()
-
-
