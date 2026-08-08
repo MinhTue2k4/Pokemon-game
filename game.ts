@@ -1,4 +1,4 @@
-import { HeroApi, HeroCard } from './api.js';
+import type { HeroApi, HeroCard } from './api.js';
 
 export interface GameState {
     all_Heroes_Data: HeroApi[];

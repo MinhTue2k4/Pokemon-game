@@ -15,7 +15,7 @@ if (!countdownBar) throw new Error(".countdown-bar not found");
         let the2: HTMLDivElement | null = null;
         let timerID: number;
         let matchedCards = 0;
-        let totalPairs = this.heroes_Data_In_Use.length;
+        let totalPairs = game.heroes_Data_In_Use.length;
 
         function setupCardConditions() {
             const cards = document.getElementsByClassName("cards")
@@ -77,7 +77,7 @@ if (!countdownBar) throw new Error(".countdown-bar not found");
             matchedCards = 0;
             clearInterval(timerID);
 
-            app.render();
+            game.render();
             setupCardConditions();
 
             timerID = setInterval(() => {
