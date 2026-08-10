@@ -111,7 +111,7 @@ export function handleEvents() {
                 btnStart.disabled = false;
 
                 setTimeout(() => {
-                    alert('Thua rồi!');
+                    alert('Thua rồiiiiiiiiiiiiiiiii!');
                     conTainer.classList.add('transit-animation');
                     conTainer.classList.remove('is-playing');
                 }, 500);

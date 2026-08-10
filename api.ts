@@ -9,7 +9,6 @@ export interface HeroApi {
 }
 
 export async function fetchHeroesData(): Promise<HeroApi[]> {
-    try {
         const response = await fetch('https://api.opendota.com/api/heroStats');
 
         if (!response.ok) {
@@ -18,9 +17,4 @@ export async function fetchHeroesData(): Promise<HeroApi[]> {
 
         const data: HeroApi[] = await response.json();
         return data;
-    } catch (error) {
-        console.log("Error:", error);
-        alert("Network error");
-        return [];
-    }
 }

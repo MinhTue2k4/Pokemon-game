@@ -1,16 +1,9 @@
 export async function fetchHeroesData() {
-    try {
-        const response = await fetch('https://api.opendota.com/api/heroStats');
-        if (!response.ok) {
-            throw new Error("CAN'T GET DATA");
-        }
-        const data = await response.json();
-        return data;
+    const response = await fetch('https://api.opendota.com/api/heroStats');
+    if (!response.ok) {
+        throw new Error("CAN'T GET DATA");
     }
-    catch (error) {
-        console.log("Error:", error);
-        alert("Network error");
-        return [];
-    }
+    const data = await response.json();
+    return data;
 }
 //# sourceMappingURL=api.js.map
