@@ -3,13 +3,16 @@ import { game } from './game.js';
 
 const $$ = document.querySelectorAll.bind(document);
 
-const conTainer = document.querySelector<HTMLDivElement>('.cards-container');
-const btnStart = document.querySelector<HTMLButtonElement>('.btn-start');
-const countdownBar = document.querySelector<HTMLDivElement>('.countdown-bar');
+function getElement<T extends HTMLElement>(element: T | null, name: string): T {
+    if (element === null) {
+        throw new Error(`${name} not found`);
+    }
+    return element;
+}
 
-if (!conTainer) throw new Error(".cards-container not found");
-if (!btnStart) throw new Error(".btn-start not found");
-if (!countdownBar) throw new Error(".countdown-bar not found");
+const btnStart = getElement(document.querySelector<HTMLButtonElement>('.btn-start'), '.btn-start');
+const conTainer = getElement(document.querySelector<HTMLDivElement>('.cards-container'), '.cards-container');
+const countdownBar = getElement(document.querySelector<HTMLDivElement>('.countdown-bar'), '.countdown-bar');
 
 function renderCards(cards: HeroCard[]) {
     const htmls = cards.map((hero) => {
@@ -89,11 +92,11 @@ export function handleEvents() {
 
         matchedCards = 0;
         clearInterval(timerID);
-        
+
         const cards = game.createDeck();
         renderCards(cards);
         setupCardConditions();
-        
+
         let timeLeft = 60;
         timerID = setInterval(() => {
             timeLeft--;

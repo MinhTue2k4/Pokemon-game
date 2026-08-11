@@ -1,8 +1,14 @@
 import { game } from './game.js';
 const $$ = document.querySelectorAll.bind(document);
-const conTainer = document.querySelector('.cards-container');
-const btnStart = document.querySelector('.btn-start');
-const countdownBar = document.querySelector('.countdown-bar');
+function getElement(element, name) {
+    if (element === null) {
+        throw new Error(`${name} not found`);
+    }
+    return element;
+}
+const btnStart = getElement(document.querySelector('.btn-start'), '.btn-start');
+const conTainer = getElement(document.querySelector('.cards-container'), '.cards-container');
+const countdownBar = getElement(document.querySelector('.countdown-bar'), '.countdown-bar');
 if (!conTainer)
     throw new Error(".cards-container not found");
 if (!btnStart)
