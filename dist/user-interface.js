@@ -9,12 +9,6 @@ function getElement(element, name) {
 const btnStart = getElement(document.querySelector('.btn-start'), '.btn-start');
 const conTainer = getElement(document.querySelector('.cards-container'), '.cards-container');
 const countdownBar = getElement(document.querySelector('.countdown-bar'), '.countdown-bar');
-if (!conTainer)
-    throw new Error(".cards-container not found");
-if (!btnStart)
-    throw new Error(".btn-start not found");
-if (!countdownBar)
-    throw new Error(".countdown-bar not found");
 function renderCards(cards) {
     const htmls = cards.map((hero) => {
         return `

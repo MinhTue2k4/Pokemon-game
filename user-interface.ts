@@ -23,7 +23,7 @@ function renderCards(cards: HeroCard[]) {
                 </div>
             `
     })
-    conTainer!.innerHTML = `<div class="row"> ${htmls.join('')} </div>`;
+    conTainer.innerHTML = `<div class="row"> ${htmls.join('')} </div>`;
 
 };
 
