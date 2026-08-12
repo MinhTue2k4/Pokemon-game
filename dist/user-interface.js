@@ -9,6 +9,7 @@ function getElement(element, name) {
 const btnStart = getElement(document.querySelector('.btn-start'), '.btn-start');
 const conTainer = getElement(document.querySelector('.cards-container'), '.cards-container');
 const countdownBar = getElement(document.querySelector('.countdown-bar'), '.countdown-bar');
+const gameMessage = getElement(document.querySelector('.game-message'), '.game-message');
 function renderCards(cards) {
     const htmls = cards.map((hero) => {
         return `
@@ -65,7 +66,7 @@ export function handleEvents() {
                 btnStart.classList.add('is-blinking');
                 btnStart.disabled = false;
                 setTimeout(() => {
-                    alert('Winner!');
+                    showGameMessage('Win! Press Play me to play again.');
                 }, 500);
             }
         }
@@ -76,11 +77,17 @@ export function handleEvents() {
             }, 800);
         }
     }
-    //
+    function showGameMessage(message) {
+        gameMessage.textContent = message;
+    }
+    function hideGameMessage() {
+        gameMessage.textContent = '';
+    }
     btnStart.addEventListener("click", function () {
         btnStart.classList.remove('is-blinking');
         btnStart.disabled = true;
         conTainer.classList.add('is-playing');
+        hideGameMessage();
         matchedCards = 0;
         clearInterval(timerID);
         const cards = game.createDeck();
@@ -100,7 +107,7 @@ export function handleEvents() {
                 btnStart.classList.add('is-blinking');
                 btnStart.disabled = false;
                 setTimeout(() => {
-                    alert('Thua rồiiiiiiiiiiiiiiiii!');
+                    showGameMessage('Time out! Press Play me to replay');
                     conTainer.classList.add('transit-animation');
                     conTainer.classList.remove('is-playing');
                 }, 500);

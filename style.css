@@ -126,6 +126,17 @@ body {
     cursor: pointer;
 }
 
+.game-message {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+
+    font-size: 24px;
+    font-weight: 700;
+    text-align: right;
+}
+
+
 @keyframes blinkPlayButton {
     0% {
         background-color: white;
