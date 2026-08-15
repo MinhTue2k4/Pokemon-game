@@ -28,12 +28,16 @@ function renderCards(cards: HeroCard[]) {
 
 };
 
+export function showGameMessage(message: string) {
+    gameMessage.textContent = message;
+}
+
 export function handleEvents() {
     let the1: HTMLDivElement | null = null;
     let the2: HTMLDivElement | null = null;
     let timerID: number;
     let matchedCards = 0;
-    let totalPairs = game.heroes_Data_In_Use.length;
+    let totalPairs = 0;
 
     function setupCardConditions() {
         const cards = document.getElementsByClassName("cards")
@@ -86,9 +90,6 @@ export function handleEvents() {
         }
     }
 
-    function showGameMessage(message: string) {
-        gameMessage.textContent = message;
-    }
     function hideGameMessage() {
         gameMessage.textContent = '';
     }
@@ -104,6 +105,7 @@ export function handleEvents() {
         clearInterval(timerID);
 
         const cards = game.createDeck();
+        totalPairs = game.heroes_Data_In_Use.length;
         renderCards(cards);
         setupCardConditions();
 

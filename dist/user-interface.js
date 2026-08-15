@@ -22,12 +22,15 @@ function renderCards(cards) {
     conTainer.innerHTML = `<div class="row"> ${htmls.join('')} </div>`;
 }
 ;
+export function showGameMessage(message) {
+    gameMessage.textContent = message;
+}
 export function handleEvents() {
     let the1 = null;
     let the2 = null;
     let timerID;
     let matchedCards = 0;
-    let totalPairs = game.heroes_Data_In_Use.length;
+    let totalPairs = 0;
     function setupCardConditions() {
         const cards = document.getElementsByClassName("cards");
         for (let card of cards) {
@@ -77,9 +80,6 @@ export function handleEvents() {
             }, 800);
         }
     }
-    function showGameMessage(message) {
-        gameMessage.textContent = message;
-    }
     function hideGameMessage() {
         gameMessage.textContent = '';
     }
@@ -91,6 +91,7 @@ export function handleEvents() {
         matchedCards = 0;
         clearInterval(timerID);
         const cards = game.createDeck();
+        totalPairs = game.heroes_Data_In_Use.length;
         renderCards(cards);
         setupCardConditions();
         let timeLeft = 60;

@@ -26,11 +26,11 @@ export const game: GameState = {
             };
         });
 
-        // x2 vitamin C  
+        // double the heroes in deck 
         const doubleTheHeroes = this.heroes_Data_In_Use.concat(this.heroes_Data_In_Use)
 
         // Xáo lần cuối cùng
-        // doubleTheHeroes.sort(() => Math.random() - 0.5);
+        doubleTheHeroes.sort(() => Math.random() - 0.5);
 
         return doubleTheHeroes;
     },
