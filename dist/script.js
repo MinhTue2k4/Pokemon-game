@@ -1,6 +1,6 @@
 import { fetchHeroesData } from './api.js';
 import { game } from './game.js';
-import { handleEvents } from './user-interface.js';
+import { handleEvents, showGameMessage } from './user-interface.js';
 async function start() {
     try {
         const data = await fetchHeroesData();
@@ -8,7 +8,8 @@ async function start() {
         handleEvents();
     }
     catch (error) {
-        console.error('Failed to start game:', error);
+        console.error(error);
+        showGameMessage("Unable to download game's data. Please check your Internet connection and reload page");
     }
 }
 start();
