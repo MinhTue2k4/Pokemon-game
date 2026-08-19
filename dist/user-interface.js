@@ -88,6 +88,8 @@ export function handleEvents() {
         btnStart.disabled = true;
         conTainer.classList.add('is-playing');
         hideGameMessage();
+        the1 = null;
+        the2 = null;
         matchedCards = 0;
         clearInterval(timerID);
         const cards = game.createDeck();

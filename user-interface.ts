@@ -98,9 +98,10 @@ export function handleEvents() {
         btnStart.classList.remove('is-blinking')
         btnStart.disabled = true
         conTainer.classList.add('is-playing');
-
         hideGameMessage();
 
+        the1 = null;
+        the2 = null;
         matchedCards = 0;
         clearInterval(timerID);
 
